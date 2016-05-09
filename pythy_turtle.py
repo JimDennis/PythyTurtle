@@ -31,6 +31,7 @@ TODO='''
 __author__ = 'James T. Dennis'
 __copyright__ = '(c) 2016 James T. Dennis'
 __license__ = 'BSD'
+__version__ = '0.0.2'
 
 import turtle
 
@@ -49,12 +50,16 @@ def draw_diagram(height=50, width=100):
         print("This diagram won't fit in the window")
         print('Drawing it anyway')
 
+    # cardinal directions
     east = 0
     north = 90
     west = 180
     south = 270
+
+    # pen thicknesses:
     thick = 4
     thin = 2
+    vthin = 1
 
     pale_cyan = '#88F4F0'
     lavender  = '#F388D7'
@@ -67,208 +72,197 @@ def draw_diagram(height=50, width=100):
     t.write('Proof by construction: compass & straight edge:', font=('Arial', 14, 'normal'))
     t.home()
 
-    print('draw a triangle')
-    t.seth(north)
+    # Move to initial location
+    t.setpos(-(2*ht+wd), 0)
+
+    print('draw initial triangle')
+    r = t.pos()   # Save return point
+    t.seth(east)
     t.pensize(thick)
+    t.pencolor('black')
+    t.fillcolor('light grey')
     t.pd()
-    t.fillcolor('cyan')
     t.begin_fill()
+    t.forward(wd)
+    t.seth(north)
     t.forward(ht)
     t.pencolor('blue')
     t.pensize(thin)
-    t.setpos(wd, 0)
-    t.seth(west)
-    t.pencolor('black')
-    t.pensize(thick)
-    t.forward(wd)
+    t.setpos(r)  # back to return point
     t.end_fill()
 
     # Add right angle marker:
-    t.pensize(thin)
+    ## r = t.pos()  # Return point
+    t.pensize(vthin)
     t.pencolor('black')
-    r = t.pos()  # Return point
     t.penup()
     t.seth(east)
-    t.forward(10)
+    t.forward(wd - 8)
     t.seth(north)
     t.pendown()
-    t.forward(10)
-    t.seth(west)
-    t.forward(10)
+    t.forward(8)
+    t.seth(east)
+    t.forward(8)
     t.penup()
     t.setpos(r)  # Return
 
     print('triangle done')
     pause = raw_input('continue: ')
 
-    print('construct square from height')
+    print('construct first rectangle (first triangle clone)')
     t.pensize(thick)
     t.pencolor('black')
+    t.fillcolor(pale_cyan)
+    t.begin_fill()
+    t.pendown()
+    t.seth(north)
+    t.forward(ht)
+    t.pensize(thin)
+    t.seth(east)
+    t.forward(wd)
+    t.end_fill()
+
+    print('construct first square: a')
+    # r = t.pos()
     t.fillcolor('pink')
-    t.pendown()
     t.begin_fill()
     t.forward(ht)
-    t.seth(north)
-    t.pensize(thick)
-    t.pencolor('yellow')
-    t.forward(ht)
-    t.seth(east)
-    t.pensize(thin)
-    t.pencolor('grey')
-    t.forward(ht)
-    t.end_fill()
-    print('height square done')
-    pause = raw_input('continue: ')
-
-    print('construct congruent triangle off original')
-    t.pensize(thin)
-    t.pencolor('grey')
-    t.fillcolor(pale_cyan)
-    r = t.pos() # return point for this triangle
-    t.begin_fill()
-    t.forward(wd)
     t.seth(south)
     t.pensize(thick)
-    t.pencolor('black')
     t.forward(ht)
-    t.pensize(thin)
-    t.pencolor('blue')
-    t.setpos(r)
-    t.end_fill()
-    print('congruent triangle done')
-    pause = raw_input('continue: ')
-
-    print('construct congruent rectangle')
-    t.pensize(thin)
-    t.pencolor('grey')
-    t.seth(north)
-    t.forward(wd)
-    r = t.pos() # return point for this triangle
-    t.pensize(thick)
-    t.pencolor('black')
-    t.fillcolor(pale_cyan)
-    t.begin_fill()
     t.seth(west)
     t.forward(ht)
-    t.seth(south)
-    t.pensize(thick)
-    t.pencolor('yellow')
-    t.forward(wd)
-    t.pensize(thin)
-    t.pencolor('blue')
-    t.setpos(r)
-    t.end_fill()
-    print('congruent rectangle done')
-    pause = raw_input('continue: ')
-
-    print('construct width square')
-    t.fillcolor('pink')
-    t.pensize(thick)
-    t.pencolor('black')
-    t.begin_fill()
-    t.seth(east)
-    t.forward(wd)
-    t.seth(south)
-    t.forward(wd)
-    t.pensize(thin)
-    t.pencolor('grey')
-    t.seth(west)
-    t.forward(wd)
-    t.end_fill()
-    print('width square done')
-    pause = raw_input('continue: ')
-
-
-    print('This large square consists of two smaller squares and four identically sized triangles')
-    print('The two small squares are the height and width')
-    pause = raw_input('continue: ')
-    print('Now we construct another large square from the existing large squared (filled with lavender)')
-    pause = raw_input('continue: ')
-
-    print('construct second large square')
-    r = list() # list of return points for inner square
     t.penup()
-    t.home()
-    t.seth(west)
-    t.forward(ht) # bottom left corner of first large square
-    t.begin_fill()
-    t.pensize(thick)
-    t.pencolor('red')
-    t.pendown()
-    t.fillcolor(pale_cyan)
-    t.forward(wd)
-    r.append(t.pos()) # save first return point
-    t.forward(ht)
     t.seth(north)
-    t.forward(wd)
-    r.append(t.pos()) # save second return point
     t.forward(ht)
+    t.end_fill()
+
+    print('label first square: a')
+    r = t.pos()
     t.seth(east)
-    t.forward(wd)
-    r.append(t.pos()) # save third return point 
-    t.forward(ht)
-    t.end_fill()
-    t.pencolor('red')
-    t.penup()
-    print('second large square done')
-    pause = raw_input('continue: ')
-
-    print('construct "ring" of congruent triangles')
-    t.pensize(thin)
-    t.pencolor('blue')
-    t.fillcolor(lavender)
+    t.forward(ht/2)
     t.seth(south)
-    t.begin_fill()
-    t.forward(wd)
-    t.pensize(thick)
-    t.pencolor('yellow')
-    r.append(t.pos()) # save starting point
-    t.pendown()
-    t.pensize(thin)
-    t.pencolor('blue')
-    for each in r:
-        # draw lines to each of our points and back to start
-        t.setpos(each)  
-    print('"ring" of congruent triangles done')
-    pause = raw_input('continue: ')
-
-
-    print('Finish divider between two large squares')
-    t.end_fill()
-    t.pensize(thick)
-    t.pencolor('yellow')
-    t.seth(south)
-    t.forward(ht)
-    print('Fill in last copy of triangle')
-    t.penup()
-    t.setpos(r[-1])
-    t.pensize(thin)
-    t.pencolor('grey')
-    t.fillcolor(pale_cyan)
-    t.begin_fill()
-    t.seth(east)
-    t.forward(ht)
-    t.seth(north)
-    t.forward(wd)
-    t.end_fill()
-    t.pencolor('blue')
-    print('Add labels to squares: a, b, and c')
-    t.setpos(-(ht/2), (ht/2))
+    t.forward(ht/2)
     t.write('a', font=('Arial', 13, 'italic'))
-    t.setpos((wd/2), ht+(wd/2))
+    t.setpos(r)
+
+
+    print('construct second rectangle')
+    t.seth(north)
+    t.pensize(thin)
+    t.fillcolor(pale_cyan)
+    t.begin_fill()
+    t.pendown()
+    t.forward(wd)
+    t.pensize(thick)
+    r = t.pos()     # return for second hypotenuse/diagonal
+    t.seth(east)
+    t.forward(ht)
+    t.seth(south)
+    t.forward(wd)
+    t.end_fill()
+    t.pensize(thin)
+    t.pencolor('blue')
+    t.setpos(r)
+
+
+    print('construct second square: b')
+    t.fillcolor('pink')
+    t.begin_fill()
+    t.seth(west)
+    t.pensize(thick)
+    t.pencolor('black')
+    t.forward(wd)
+    t.seth(south)
+    t.forward(wd)
+    t.penup()
+    t.seth(east)
+    t.forward(wd)
+    t.end_fill()
+
+    print('label second square: b')
+    r = t.pos()
+    t.seth(west)
+    t.forward(wd/2+5)
+    t.seth(north)
+    t.forward(wd/2-5)
     t.write('b', font=('Arial', 13, 'italic'))
-    t.setpos(-((wd+ht)/2+ht), (wd+ht)/2)
+    t.setpos(r)
+    # Now turtle is located at bottom left (SE) corner of b square
+
+    # Move turn to starting point for second enclosure
+    t.penup()
+    t.seth(east)
+    t.forward(ht+thick)
+
+    corners = list()
+    # to save vetices of the inscribed
+    # square as we build the enclosure
+    corners.append(t.pos())
+
+    print('construct second enclosure for "ring of triangles"')
+    t.fillcolor(pale_cyan)
+    t.begin_fill()
+    t.pensize(thick)
+    t.pencolor('red')
+    t.pendown()
+    t.seth(north)
+    t.forward(wd)
+    t.seth(east)
+    t.forward(ht)
+    corners.append(t.pos())
+    t.forward(wd)
+    t.seth(south)
+    t.forward(ht)
+    corners.append(t.pos())
+    t.forward(wd)
+    t.seth(west)
+    t.forward(ht)
+    corners.append(t.pos())
+    t.forward(wd)
+    t.seth(north)
+    t.forward(ht)
+    t.end_fill()
+    t.penup()
+
+
+    print('construct last (enclosed) square: c')
+    t.fillcolor(lavender)
+    t.begin_fill()
+    t.pensize(thin)
+    t.pencolor('blue')
+    t.pendown()
+    for each in corners:
+        t.setpos(each)
+    t.setpos(corners[0])
+    t.end_fill()
+    t.penup()
+
+    print('label last (enclosed) square: c')
+    t.pencolor('black')
+    t.seth(east)
+    t.forward((wd+ht)/2)
+    t.seth(north)
+    t.forward((wd+ht)/2 - ht)
     t.write('c', font=('Arial', 13, 'italic'))
 
-    t.setpos(r[-1]) # Back to starting point for inner square
     t.hideturtle()
-    print('Done')
-    pause = raw_input('continue: ')
-    return w
+    t.home()
+    return w # XXX
 
 if __name__ == '__main__':
     import sys
     args = sys.argv[1:]
+    save_diagram = False
+    if len(args) == 3:
+        try:
+            import canvasvg
+        except ImportError as e:
+            print('Unable to import canvasvg: %s' % e, file=sys.stderr)
+        else:
+            save_diagram = args[2]
+        args.pop()
+
     if len(args) < 2:
         print('Calling with default triangle size')
         height = 50
@@ -282,5 +276,11 @@ if __name__ == '__main__':
             print('Calling with default triangle size')
 
     screen = draw_diagram(height, width)
-    screen.mainloop()
+    if save_diagram:
+        try:
+            canvasvg.saveall(save_diagram, screen.getcanvas())
+        except EnvironmentError, e:
+            print('Unable to save diagram in file %s: %s' % (save_diagram, e),
+              file=sys.stderr)
+    turtle.mainloop()
 

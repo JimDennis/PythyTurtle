@@ -18,12 +18,12 @@ resulting diagram.  To do this start a Python (2.x) or iPython
 shell and issue the following commands:
 
 
-    ```
-    >>> import pythy_turtle as pythy
-    >>> ## ... set height and width as desired: x and y
-    >>> screen = pythy.draw_diagram(x, y)
-    >>> turtle = screen.getturtles()[0]
-    ```
+```
+>>> import pythy_turtle as pythy
+>>> ## ... set height and width as desired: x and y
+>>> screen = pythy.draw_diagram(x, y)
+>>> turtle = screen.getturtles()[0]
+```
 
 As shown the single turtle used by this function can be obtained
 for further manipuation from the object returned by the
@@ -32,12 +32,12 @@ for further manipuation from the object returned by the
 To save the resulting image one can also use the canvasvg package
 (https://pypi.python.org/pypi/canvasvg/1.0.0) like so:
 
-    ```
-    >>> ## (given the preceding environment)
-    >>> import canvasvg
-    >>> ## Choose a filename
-    >>> cavasvg.save_all(filename, screen.getcanvas())
-    ```
+```
+>>> ## (given the preceding environment)
+>>> import canvasvg
+>>> ## Choose a filename
+>>> cavasvg.save_all(filename, screen.getcanvas())
+```
 
 ... ignore the warning about how canvasvg doesn't support images;
 this code isn't using any of them and the exported SVG file looks
@@ -56,6 +56,10 @@ the Turtle.mainloop() function to allow the user to view and
 manipulate the resulting window as desired.  Closing that window
 will then drop out of `__main__`.
 
+If a third command line argument is provided then it should be
+a filename to which you want the resulting diagram to be saved
+as an SVG (Scalable Vector Graphic).
+
 If the program is called with arguments that cannot be converted
 to Python integers then the default triangle height and width
 (50x100) will be used.
@@ -63,29 +67,22 @@ to Python integers then the default triangle height and width
 Currently there are thick and thin lines, thick lines for outer
 (enclosing) square edges, thin lines for inner edges.  Black for
 the first (rectangular) enclosing square; red for the second
-("ring of triangles") square.  The "a" and "b" squares are filled
-in pink, the "c" squars is filled in lavender, and the triangles
-are filled with two shades of cyan ... one for the original (given)
-triangle and a slightly ligther cyan for the seven constructed
-triangles.  There's currently a thick yellow line for the shared
-edge between the two enclosing squares.
+("ring of triangles") square.  The initial triangle is shaded
+in light grey and has a customary "right angle" mark. The 
+"a" and "b" squares are filled in pink; the "c" square is filled
+in lavender; and the triangles are filled with a pale cyan.
+
+This initial triangle is oriented in the manner customarily used
+to draw a "unit circle" ... to facilitate associating these
+related concepts.
 
 Bugs and limitations:
 
 * Uses console text and `raw_input` to step through the construction
    (This is currently tightly interlaced into the function; need to
    make that optional and decoupled).
-* The layout of the construction is not consistent with "unit circle"
-   diagrams.
-* The "yellow" line for the shared edge between enclosing squares is
-   ugly and confusing.
 * The steps used to draw the diagram do not show the hints necessary
    for c&s construction.  It's illustrative rather than being a proof.
-* I think there's some inefficiency, some wasted turtle movement,
-   especially around the transition from the first enclosing square
-   to the point for drawing the second.  (I've devised a sequence
-   of only 26 strokes with only two major "hidden" turtle movements
-   on paper).
 * variable names in the function: w, t, wd, ht are horrible
    (they were used for the interactive session in which ai developed
    the code)
@@ -96,15 +93,6 @@ Bugs and limitations:
 
 To Do:
 * Refactor the local variable names
-* Refactor diagram layout for "unit circle" consistency
-* Elminate "yellow" line. Shift the second enclosing square over by
-    "thick" line width.
-* Fill original (given) triangle in light grey rather than cyan
-    (facilitate more concise narrative when using this as a teaching
-    device).
-* Draw labels for small (result) squares as they are filled.
-  * Refactor label positioning into their own functions
-* Offer command line option to export resulting canvas to SVG file
 * Offer iPython embedded shell option to call after image drawn
     (for use by programming students)
 * Move interaction from console into Turtle/Tk events!
@@ -120,5 +108,4 @@ To Do:
   * Animated?
 * Port to JavaScript on HTML5 canvas and post to custom web
     page
-
 
