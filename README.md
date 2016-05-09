@@ -1,6 +1,9 @@
 Draw diagram for proving the Pythagorean Theorem
 ================================================
 
+[[wiki/img/pythagorean_diagram1.png]]
+
+
 Draws a diagram suitable for proving the Pythagorean Theorem
 using turtle graphics..
 
@@ -108,4 +111,5 @@ To Do:
   * Animated?
 * Port to JavaScript on HTML5 canvas and post to custom web
     page
+
 
