@@ -11,10 +11,16 @@
 The figures below show illustrate the principle underlying the 
 <a href="http://en.wikipedia.org/wiki/Pythagorean_Theorem">Pythagorean Theorem</a>.
 Given any right triangle (in grey in these figures), it's possible to construct 
-identically shaped and sized (<em>&quot;congruent&quot;</em>) and squares from the 
-base and height ... and to show that the shape enclosing all of these is a square.
-(Those are shown, on the left of these figures, in pink, grey, and light steel
-blue).</p>
+identically shaped and sized (<em>&quot;congruent&quot;</em>) triangles and also
+squares from the base and height ... and to show that the shape enclosing all of
+these is a square.  (Those are shown, on the left of these figures, in pink, grey,
+and light steel blue).</p>
+<figure>
+<canvas id="fig" width="800" height="600"
+style="border:1px solid #888800;">
+</canvas>
+<figcaption>Click on the figure to toggle the animation</figcaption>
+</figure>
 <p>
 From one edge of that enclosing square, we can construct another congruent square 
 (shown to the right in each of the figures below).  Inscribed within that second square
@@ -24,7 +30,7 @@ turquoise in the figures below).</p>
 <p>
 These figures are visual equations.</p>
 <p>
-The area of (enclosing) squares are equal.  The  areas of all the triange clones
+The area of (enclosing) squares are equal.  The areas of all the triange clones
 are equal to one another.  If we subtract the areas of the four triangles (arranged
 in rectangles in the left of each figure, and the four in a "ring" to the right) ...
 then the remaining space in the left square (the two pink squares) will be of equal
@@ -42,12 +48,6 @@ this is based on any sort of units; it's a matter of proportions. The animation
 is limited to a subset of the possible ratios because the graphics just look bad
 for excessively oblique triangles.
 </p>
-<figure>
-<canvas id="fig" width="800" height="600"
-style="border:1px solid #888800;">
-</canvas>
-<figcaption>Click on the figure to toggle the animation</figcaption>
-<figure>
 <script type="text/javascript">
 
 var fig = document.getElementById("fig");
@@ -70,7 +70,7 @@ ctx.font = "20px Arial";
 ctx.fillText("   by geometric construction", 200, 55);
 
 var drawDiagram = function (h, w, ox, oy) {
-    ctx.font = "12px Arial";
+    ctx.font = "15px Arial";
     var tr = maketrans(ox, oy);
     var args = tr(0, 0).concat([400,100]);
     ctx.fillStyle = "Pink";
@@ -86,7 +86,7 @@ var drawDiagram = function (h, w, ox, oy) {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-    // 
+    // first clone
     ctx.beginPath();
     ctx.fillStyle = "LightSkyBlue";
     ctx['lineTo'].apply(ctx, tr(0,   h));
