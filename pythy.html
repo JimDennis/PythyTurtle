@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<head><title>Pythagorean Theorem: Proof By Construction</title>
+</head>
+<html>
+<body>
+<header>
+<h1>Pythagorean Theorem:</h1>
+<h2>Proof By Construction</h2>
+</header>
+<p>
+The figures below show illustrate the principle underlying the 
+<a href="http://en.wikipedia.org/wiki/Pythagorean_Theorem">Pythagorean Theorem</a>.
+Given any right triangle (in grey in these figures), it's possible to construct 
+identically shaped and sized (<em>&quot;congruent&quot;</em>) and squares from the 
+base and height ... and to show that the shape enclosing all of these is a square.
+(Those are shown, on the left of these figures, in pink, grey, and light steel
+blue).</p>
+<p>
+From one edge of that enclosing square, we can construct another congruent square 
+(shown to the right in each of the figures below).  Inscribed within that second square
+we can construct a ring of additional clones of our given triangle.  The shape within
+that ring, formed by their hypotenuses, is a also square. (That's shaded in medium
+turquoise in the figures below).</p>
+<p>
+These figures are visual equations.</p>
+<p>
+The area of (enclosing) squares are equal.  The  areas of all the triange clones
+are equal to one another.  If we subtract the areas of the four triangles (arranged
+in rectangles in the left of each figure, and the four in a "ring" to the right) ...
+then the remaining space in the left square (the two pink squares) will be of equal
+area to the remaining space on the right (shaded in lavender).</p>
+<p>
+In other words the sum of the two pink squares (&quot;a&quot; &amp; &quot;b&quot;)
+are equal to the lavender square (&quot;c&quot;).  This is the familiar equation::</p>
+<p>
+a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
+</p>
+<p>
+The animation on the lower figure show how these relationships work for the full
+range of heights and widths.  Only the ratio of height and width matter.  None of
+this is based on any sort of units; it's a matter of proportions. The animation
+is limited to a subset of the possible ratios because the graphics just look bad
+for excessively oblique triangles.
+</p>
+<figure>
+<canvas id="fig" width="800" height="600"
+style="border:1px solid #888800;">
+</canvas>
+<figcaption>Click on the figure to toggle the animation</figcaption>
+<figure>
+<script type="text/javascript">
+
+var fig = document.getElementById("fig");
+var ctx = fig.getContext("2d");
+height = fig.getAttribute("height");
+width = fig.getAttribute("width");
+var maketrans = function(ox, oy, h=height, w=width) {
+    var ox=ox; var oy=oy;
+    return function (x,y) {
+        return [x+ox, -1*(y-h)-oy];
+    };
+};
+
+ctx.fillStyle = "#1a1a1a";
+ctx.textAlign = "center";
+ctx.font = "30px Arial";
+ctx.fillStyle = "grey";
+ctx.fillText("Pythagorean Theorem", 200, 30);
+ctx.font = "20px Arial";
+ctx.fillText("   by geometric construction", 200, 55);
+
+var drawDiagram = function (h, w, ox, oy) {
+    ctx.font = "12px Arial";
+    var tr = maketrans(ox, oy);
+    var args = tr(0, 0).concat([400,100]);
+    ctx.fillStyle = "Pink";
+    args = tr(0, 0).concat([(h+w), -(h+w)]);
+    ctx.fillStyle = "Pink";
+    ctx['fillRect'].apply(ctx, args);
+    ctx.beginPath();
+    ctx.fillStyle = "LightGray";
+    ctx['moveTo'].apply(ctx, tr(0, 0));
+    ctx['lineTo'].apply(ctx, tr(w, 0));
+    ctx['lineTo'].apply(ctx, tr(w, h));
+    ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // 
+    ctx.beginPath();
+    ctx.fillStyle = "LightSkyBlue";
+    ctx['lineTo'].apply(ctx, tr(0,   h));
+    ctx['lineTo'].apply(ctx, tr(w, h));
+    ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // upper corner, pink square
+    ctx['moveTo'].apply(ctx, tr(w+h,  h));
+    ctx.beginPath();
+    // upper corner triangle
+    ctx['lineTo'].apply(ctx, tr(w,   h+w));
+    ctx['lineTo'].apply(ctx, tr(w+h, h+w));
+    ctx['lineTo'].apply(ctx, tr(w+h, h));
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    // lower half of upper rectangle
+    ctx['lineTo'].apply(ctx, tr(w,   h));
+    ctx['lineTo'].apply(ctx, tr(w,   h+w));
+    ctx['lineTo'].apply(ctx, tr(w+h, h));
+    ctx.closePath()
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx['moveTo'].apply(ctx, tr(10+w+h,   20));
+    args = tr(w+h, 0).concat([(h+w), -(h+w)]);
+    ctx['fillRect'].apply(ctx, args);
+    ctx.closePath();
+    ctx.beginPath();
+    ctx.fillStyle = "MediumTurquoise";
+    ctx['moveTo'].apply(ctx, tr(w+h,     h));
+    ctx['lineTo'].apply(ctx, tr(w+h+h,   h+w));
+    ctx['lineTo'].apply(ctx, tr(2*(w+h), w));
+    ctx['lineTo'].apply(ctx, tr(2*w+h,   0));
+    ctx['lineTo'].apply(ctx, tr(w+h,     h));
+    ctx.closePath();
+    ctx.fill();
+    // Label for c
+    args =  ["c"].concat(tr(w+h+(w+h)/2, (h+w)/2));
+    ctx.fillStyle = "Black";
+    ctx['fillText'].apply(ctx, args);
+    args =  ["b"].concat(tr(w+h/2, h/2));
+    ctx['fillText'].apply(ctx, args);
+    args =  ["a"].concat(tr(w/2, h+w/2));
+    ctx['fillText'].apply(ctx, args);
+    ctx.stroke();
+}
+
+drawDiagram(50, 150,  20, 230);
+drawDiagram(100, 100 , 20, 20);
+
+var i = 0;
+var animate = function () {
+    i = (i+3)%140;
+    var h = 30 + i;
+    var w = 200 - h;
+    // console.log(`h, w: ${h}, ${w}`);
+    drawDiagram(h, w, 20, 20);
+    };
+
+var exp = new Date() + 10000;
+// console.log(`expiration: ${exp}`);
+var atimer = -1;
+// console.log(`atimer: ${atimer}`);
+var toggle = true;
+fig.onclick = function () { 
+  if (toggle) {
+     atimer = window.setInterval(animate, 30);
+     toggle = false;
+     } 
+  else {
+     window.clearInterval(atimer);
+     toggle = true;
+  };
+};
+
+</script>
+<p>
+The code for this is available in JavaScript and Python at: 
+<a href="https://github.com/JimDennis/PythyTurtle">Github: Jim Dennis: PythyTurtle</a> (The 
+Python prototype using &quot;<a href="https://en.wikipedia.org/wiki/Turtle_graphics">turtle graphics</a>&quot;).
+</p>
+<footer>
+&copy; 2016 James T. Dennis
+</footer>
+</body>
+</html>
+
