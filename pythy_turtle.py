@@ -122,7 +122,7 @@ def draw_diagram(height=50, width=100):
     t.forward(wd)
     t.end_fill()
 
-    print('construct first square: a')
+    print('construct first square: b')
     # r = t.pos()
     t.fillcolor('pink')
     t.begin_fill()
@@ -137,13 +137,13 @@ def draw_diagram(height=50, width=100):
     t.forward(ht)
     t.end_fill()
 
-    print('label first square: a')
+    print('label first square: b')
     r = t.pos()
     t.seth(east)
     t.forward(ht/2)
     t.seth(south)
     t.forward(ht/2)
-    t.write('a', font=('Arial', 13, 'italic'))
+    t.write('b', font=('Arial', 13, 'italic'))
     t.setpos(r)
 
 
@@ -166,7 +166,7 @@ def draw_diagram(height=50, width=100):
     t.setpos(r)
 
 
-    print('construct second square: b')
+    print('construct second square: a')
     t.fillcolor('pink')
     t.begin_fill()
     t.seth(west)
@@ -180,13 +180,13 @@ def draw_diagram(height=50, width=100):
     t.forward(wd)
     t.end_fill()
 
-    print('label second square: b')
+    print('label second square: a')
     r = t.pos()
     t.seth(west)
     t.forward(wd/2+5)
     t.seth(north)
     t.forward(wd/2-5)
-    t.write('b', font=('Arial', 13, 'italic'))
+    t.write('a', font=('Arial', 13, 'italic'))
     t.setpos(r)
     # Now turtle is located at bottom left (SE) corner of b square
 
