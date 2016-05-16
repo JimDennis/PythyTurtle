@@ -69,65 +69,73 @@ ctx.fillText("Pythagorean Theorem", 200, 30);
 ctx.font = "20px Arial";
 ctx.fillText("   by geometric construction", 200, 55);
 
+var initial_ls = ctx.lineWidth;
+var initial_ss = ctx.strokeStyle;
+
 var drawDiagram = function (h, w, ox, oy) {
+    var tr = maketrans(ox, oy);      // full diagram
+    var ltr = maketrans(ox+2, oy+2); // +2 adds room thick border left side
+    var rtr = maketrans(ox+6, oy+2); // +6 for both thick borders
+    var args = ltr(0, 0).concat([400,100]);
     ctx.font = "15px Arial";
-    var tr = maketrans(ox, oy);
-    var args = tr(0, 0).concat([400,100]);
     ctx.fillStyle = "Pink";
-    args = tr(0, 0).concat([(h+w), -(h+w)]);
+    args = ltr(0, 0).concat([(h+w), -(h+w)]);
     ctx.fillStyle = "Pink";
     ctx['fillRect'].apply(ctx, args);
     ctx.beginPath();
     ctx.fillStyle = "LightGray";
-    ctx['moveTo'].apply(ctx, tr(0, 0));
-    ctx['lineTo'].apply(ctx, tr(w, 0));
-    ctx['lineTo'].apply(ctx, tr(w, h));
-    ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx['moveTo'].apply(ctx, ltr(0, 0));
+    ctx['lineTo'].apply(ctx, ltr(w, 0));
+    ctx['lineTo'].apply(ctx, ltr(w, h));
+    ctx['lineTo'].apply(ctx, ltr(0, 0));
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
     // first clone
     ctx.beginPath();
     ctx.fillStyle = "LightSkyBlue";
-    ctx['lineTo'].apply(ctx, tr(0,   h));
-    ctx['lineTo'].apply(ctx, tr(w, h));
-    ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx['lineTo'].apply(ctx, ltr(0,   h));
+    ctx['lineTo'].apply(ctx, ltr(w, h));
+    ctx['lineTo'].apply(ctx, ltr(0, 0));
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
     // upper corner, pink square
-    ctx['moveTo'].apply(ctx, tr(w+h,  h));
+    ctx['moveTo'].apply(ctx, ltr(w+h,  h));
     ctx.beginPath();
     // upper corner triangle
-    ctx['lineTo'].apply(ctx, tr(w,   h+w));
-    ctx['lineTo'].apply(ctx, tr(w+h, h+w));
-    ctx['lineTo'].apply(ctx, tr(w+h, h));
+    ctx['lineTo'].apply(ctx, ltr(w,   h+w));
+    ctx['lineTo'].apply(ctx, ltr(w+h, h+w));
+    ctx['lineTo'].apply(ctx, ltr(w+h, h));
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
     ctx.beginPath();
     // lower half of upper rectangle
-    ctx['lineTo'].apply(ctx, tr(w,   h));
-    ctx['lineTo'].apply(ctx, tr(w,   h+w));
-    ctx['lineTo'].apply(ctx, tr(w+h, h));
+    ctx['lineTo'].apply(ctx, ltr(w,   h));
+    ctx['lineTo'].apply(ctx, ltr(w,   h+w));
+    ctx['lineTo'].apply(ctx, ltr(w+h, h));
     ctx.closePath()
     ctx.fill();
     ctx.stroke();
+    // other half of diagram
     ctx.beginPath();
-    ctx['moveTo'].apply(ctx, tr(10+w+h,   20));
-    args = tr(w+h, 0).concat([(h+w), -(h+w)]);
+    ctx['moveTo'].apply(ctx, rtr(10+w+h,   20));
+    args = rtr(w+h, 0).concat([(h+w), -(h+w)]);
     ctx['fillRect'].apply(ctx, args);
     ctx.closePath();
+    ctx.stroke();
     ctx.beginPath();
     ctx.fillStyle = "MediumTurquoise";
-    ctx['moveTo'].apply(ctx, tr(w+h,     h));
-    ctx['lineTo'].apply(ctx, tr(w+h+h,   h+w));
-    ctx['lineTo'].apply(ctx, tr(2*(w+h), w));
-    ctx['lineTo'].apply(ctx, tr(2*w+h,   0));
-    ctx['lineTo'].apply(ctx, tr(w+h,     h));
+    ctx['moveTo'].apply(ctx, rtr(w+h,     h));
+    ctx['lineTo'].apply(ctx, rtr(w+h+h,   h+w));
+    ctx['lineTo'].apply(ctx, rtr(2*(w+h), w));
+    ctx['lineTo'].apply(ctx, rtr(2*w+h,   0));
+    ctx['lineTo'].apply(ctx, rtr(w+h,     h));
     ctx.closePath();
+    ctx.stroke();
     ctx.fill();
-    // Label for c
+    // Labels for boxes:
     args =  ["c"].concat(tr(w+h+(w+h)/2, (h+w)/2));
     ctx.fillStyle = "Black";
     ctx['fillText'].apply(ctx, args);
@@ -135,6 +143,34 @@ var drawDiagram = function (h, w, ox, oy) {
     ctx['fillText'].apply(ctx, args);
     args =  ["a"].concat(tr(w/2, h+w/2));
     ctx['fillText'].apply(ctx, args);
+    ctx.stroke();
+    // Black border around left enclosure
+    ctx.beginPath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'blue';
+    ctx['moveTo'].apply(ctx, tr(0, 0));
+    ctx['lineTo'].apply(ctx, tr(h+w+2, 0));
+    ctx['lineTo'].apply(ctx, tr(h+w+2, h+w+2));
+    ctx['lineTo'].apply(ctx, tr(0, h+w+2));
+    ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx.closePath();
+    ctx.stroke();
+    // Red border around right enclosure
+    ctx.beginPath();
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 4;
+    ctx['moveTo'].apply(ctx, tr(h+w+4, 0));
+    ctx['lineTo'].apply(ctx, tr(2*(w+h+4), 0));
+    ctx['lineTo'].apply(ctx, tr(2*(w+h+4), h+w+2));
+    ctx['lineTo'].apply(ctx, tr(h+w+4, h+w+2));
+    // ctx['lineTo'].apply(ctx, tr(0, h+w+2));
+    // ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx.closePath();
+    ctx.stroke();
+
+    // Restore saved line with and color/style
+    ctx.lineWidth = initial_ls;
+    ctx.strokeStyle = initial_ss;
     ctx.stroke();
 }
 
