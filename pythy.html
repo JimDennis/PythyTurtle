@@ -16,8 +16,7 @@ squares from the base and height ... and to show that the shape enclosing all of
 these is a square.  (Those are shown, on the left of these figures, in pink, grey,
 and light steel blue).</p>
 <figure>
-<canvas id="fig" width="800" height="600"
-style="border:1px solid #888800;">
+<canvas id="fig" width="700" height="500" >
 </canvas>
 <figcaption>Click on the figure to toggle the animation</figcaption>
 </figure>
@@ -75,7 +74,7 @@ var initial_ss = ctx.strokeStyle;
 var drawDiagram = function (h, w, ox, oy) {
     var tr = maketrans(ox, oy);      // full diagram
     var ltr = maketrans(ox+2, oy+2); // +2 adds room thick border left side
-    var rtr = maketrans(ox+6, oy+2); // +6 for both thick borders
+    var rtr = maketrans(ox+8, oy+2); // +6 for both thick borders
     var args = ltr(0, 0).concat([400,100]);
     ctx.font = "15px Arial";
     ctx.fillStyle = "Pink";
@@ -159,12 +158,10 @@ var drawDiagram = function (h, w, ox, oy) {
     ctx.beginPath();
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 4;
-    ctx['moveTo'].apply(ctx, tr(h+w+4, 0));
+    ctx['moveTo'].apply(ctx, tr(h+w+6, 0));
     ctx['lineTo'].apply(ctx, tr(2*(w+h+4), 0));
     ctx['lineTo'].apply(ctx, tr(2*(w+h+4), h+w+2));
-    ctx['lineTo'].apply(ctx, tr(h+w+4, h+w+2));
-    // ctx['lineTo'].apply(ctx, tr(0, h+w+2));
-    // ctx['lineTo'].apply(ctx, tr(0, 0));
+    ctx['lineTo'].apply(ctx, tr(h+w+6, h+w+2));
     ctx.closePath();
     ctx.stroke();
 
